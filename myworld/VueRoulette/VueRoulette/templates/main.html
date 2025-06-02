@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,12 +12,20 @@
     <nav><a href="Tutorial">How to play?</a><a href="Leaderboard">Leaderboard</a></nav>
     <main>
         <section id="game">
-            <div id="revolver">
+            <canvas id="revolver">
 
-            </div>
+            </canvas>
             <div id="gameView">
-                <canvas id="gameImg"></canvas>
-                <div id="stats"></div>
+                <canvas id="gameImg" ></canvas>
+                <div id="stats">
+                    <img class="buttonImg" src="{% static 'img/roll.png' %}">
+                    <img class="buttonImg" src="{% static 'img/Pull.png' %}">
+                    <input type="button" value="Roll cylinder." class="button">
+                    <input type="button" value="Pull the trigger." class="button">
+                    
+                    
+                    
+                </div>
             </div>
             
         </section>

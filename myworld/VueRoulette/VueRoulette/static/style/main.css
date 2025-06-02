@@ -32,9 +32,10 @@ section{
     border: 2px solid wheat;
 }
 
-a:link{
+a:link, a:visited{
     color: #000;
 }
+
 
 nav{
     background-color: burlywood;
@@ -91,8 +92,9 @@ tbody {
 }
 
 #gameImg{
+
     width: 100%;
-    height: 50%;
+    height:50%;
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -100,7 +102,9 @@ tbody {
     width: 100%;
     height: 50%;
     background-color: rgba(100, 100, 100, 0.1);
-
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 #revolver{
@@ -118,4 +122,21 @@ footer{
 
 .long{
     height: auto;
+}
+
+.button{
+    height: 10%;
+    width: 40%;
+    margin: 10px;
+    background-color: black;
+    color: blanchedalmond;
+    margin-bottom: 50px;
+}
+
+.buttonImg{
+    height: 40%;
+    width: auto;
+    margin: 15px;
+    margin-top: 50px;
+    border: 2PX solid wheat;
 }
