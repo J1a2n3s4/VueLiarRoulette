@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue page</title>
+  <style>
+    #app {
+      display: inline-block;
+      padding: 10px;
+      font-size: x-large;
+      background-color: lightgreen;
+    }
+  </style>
+</head>
+<body>
+
+<div id="stats">
+  {{ message1 }} <br>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<div id="app">[[ message ]]</div>
+
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+            return {
+                message: 'Hello Vue!'
+            }
+        },
+
+        delimiters: ['[[', ']]'],
+    }).mount('#app')
+</script>
+
+</body>
+</html>

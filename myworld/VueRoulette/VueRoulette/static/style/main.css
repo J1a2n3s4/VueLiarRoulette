@@ -124,8 +124,12 @@ footer{
     height: auto;
 }
 
-.button{
-    height: 40%;
+form{
+    margin:0;
+}
+
+button{
+    height: 100%;
     width: 40%;
     margin: 10px;
     background-color: black;

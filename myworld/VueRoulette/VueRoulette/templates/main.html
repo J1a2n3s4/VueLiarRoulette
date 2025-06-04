@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roulette</title>
     <link rel="stylesheet" href="{% static 'style/main.css' %}">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js">
-        
-    </script>
+    
 </head>
 <body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
     <header><h1>VUE ROULETTE</h1><h3>A roulette game made with Django and Vue.</h3></header>
     <nav><a href="Tutorial">How to play?</a><a href="Leaderboard">Leaderboard</a></nav>
     <main>
@@ -21,8 +21,7 @@
             <div id="gameView">
                 <canvas id="gameImg" ></canvas>
                 <div id="stats">
-                    <input type="button" value="Roll cylinder." class="button">
-                    <input type="button" value="Pull the trigger." class="button">
+                    [[template]]
                 </div>
             </div>
             
@@ -38,5 +37,28 @@
     <footer>
         <h3>Website and game made by Jędrzej Burczyński.</h3>
     </footer>
+
+    <script>
+
+    const { createApp } = Vue
+
+        createApp({
+            template: `
+            <form>
+            <button type = "button" class = "button">Pull the trigger</button>
+            <button type = "button" class = "button">Roll the cylinder</button>
+            </form>
+            `,
+            data() {
+                return {
+                    message : "smth went wrong :<"
+                    
+                }
+            },
+
+            delimiters: ['[[', ']]'],
+        }).mount('#stats')
+
+    </script>
 </body>
 </html>
