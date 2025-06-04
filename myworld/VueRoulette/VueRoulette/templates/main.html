@@ -21,7 +21,26 @@
             <div id="gameView">
                 <canvas id="gameImg" ></canvas>
                 <div id="stats">
-                    [[template]]
+                            <div v-if="game.includes('0')" id="labelCount">
+                                
+                                <form >
+                                Bullets: <div id="bulletCount" display = "inline">1</div>
+                                <input type="range" onchange="bAmtChange()" oninput="bAmtChange()" min = "1" max = "5" step="1" id="startB">
+                                
+                                
+                                
+                                <button type = "button" class = "button">Start</button>
+                                </form>
+                                
+                            </div>
+                            <div id="gamestats" v-else-if="game.includes('1')">
+                                <form id="wide">
+                                <button type = "button" class = "button">Pull the trigger</button>
+                                <button type = "button" class = "button">Roll the cylinder</button>
+                                </form>
+                            </div>
+                            <div v-else>jdwi</div>
+                    </div>
                 </div>
             </div>
             
@@ -40,18 +59,52 @@
 
     <script>
 
+    var bullets;
+
+    class revolver{
+        inChamber;
+        chambers;
+
+        roll() {
+            let rolls = Math.floor(Math.random()*36)
+            for(let i = 0; i < rolls; i++){
+                let last = chambers[5]
+                for(let j = 0; j < 5; j++){
+                    chambers[j] = chambers[j+1];
+                }
+                chambers[5] = last;
+            }
+        }
+
+        constructor(ammoAmt){
+            chambers = new Array(6);
+            for(let i = 0; i < ammoAmt; i++){
+                chambers[i] = true;
+                roll()
+            }
+        };
+    }   
+    document.onload = function(){
+
+    document.getElementById("startB").addEventListener("input", bAmtChange);
+    document.getElementById("startB").addEventListener("change", bAmtChange);
+
+    };
+
+    function bAmtChange(){
+        bullets = document.querySelector("#startB").value
+        document.querySelector("#bulletCount").innerHTML = bullets
+
+
+    }
+
+
     const { createApp } = Vue
 
         createApp({
-            template: `
-            <form>
-            <button type = "button" class = "button">Pull the trigger</button>
-            <button type = "button" class = "button">Roll the cylinder</button>
-            </form>
-            `,
-            data() {
+            data: function(){
                 return {
-                    message : "smth went wrong :<"
+                    game : "1",
                     
                 }
             },

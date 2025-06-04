@@ -26,7 +26,7 @@ header{
 section{
     background-color: rgba(0, 0, 0, 0.1);
     height: 550px;
-    width: 45%;
+    width: 25%;
     padding: 10px;
     margin: auto;
     border: 2px solid wheat;
@@ -82,6 +82,7 @@ tbody {
 }
 #game{
     display: flex;
+    width: 70%;
 }
 
 #gameView{
@@ -102,9 +103,9 @@ tbody {
     height: 20%;
     background-color: rgba(100, 100, 100, 0.1);
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
+    
 }
 
 #revolver{
@@ -129,9 +130,28 @@ form{
 }
 
 button{
-    height: 100%;
-    width: 40%;
+    height: 40%;
+    width: 50%;
     margin: 10px;
     background-color: black;
     color: blanchedalmond;
+}
+
+
+
+form{
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    flex-wrap: wrap;
+}
+
+#labelCount{
+
+    display: flex;
+    justify-content: center;
+}
+
+#wide{
+    width: 100%;
 }
