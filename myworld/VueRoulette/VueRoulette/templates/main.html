@@ -10,36 +10,42 @@
 </head>
 <body>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
     <header><h1>VUE ROULETTE</h1><h3>A roulette game made with Django and Vue.</h3></header>
     <nav><a href="Tutorial">How to play?</a><a href="Leaderboard">Leaderboard</a></nav>
     <main>
         <section id="game">
-            <canvas id="revolver">
-
-            </canvas>
+            <div id="revolver">
+                <img src="{% static 'img/Revolver.png' %}" id="Rev">
+            </div>
             <div id="gameView">
-                <canvas id="gameImg" ></canvas>
+                <div id="gameImg">
+                    
+                </div>
                 <div id="stats">
                             <div v-if="game.includes('0')" id="labelCount">
                                 
                                 <form >
                                 Bullets: <div id="bulletCount" display = "inline">1</div>
-                                <input type="range" onchange="bAmtChange()" oninput="bAmtChange()" min = "1" max = "5" step="1" id="startB">
+                                <input type="range" value="1" onchange="bAmtChange()" oninput="bAmtChange()" min = "1" max = "5" step="1" id="startB">
                                 
                                 
                                 
-                                <button type = "button" class = "button">Start</button>
+                                <button type = "button" class = "button" v-on:click = "continueGame()">Start</button>
                                 </form>
                                 
                             </div>
                             <div id="gamestats" v-else-if="game.includes('1')">
                                 <form id="wide">
-                                <button type = "button" class = "button">Pull the trigger</button>
-                                <button type = "button" class = "button">Roll the cylinder</button>
+                                <button type = "button" class = "button" v-on:click = "continueGame()">Pull the trigger</button>
+                                <button type = "button" class = "button" v-on:click = "reset()">Roll the cylinder</button>
                                 </form>
                             </div>
-                            <div v-else>jdwi</div>
+                            <div id="gamestats" v-else>
+                                <form id="wide" action="lose">
+                                <button type = "submit" class = "button" >Pull the trigger</button>
+                                <button type = "button" class = "button"v-on:click= "reset()">Roll the cylinder</button>
+                                </form>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -59,43 +65,61 @@
 
     <script>
 
-    var bullets;
+    var bullets = 1;
+    
+    var img = document.getElementById("gameImg")
+
+    var imgRev = document.getElementById("Rev")
+    
 
     class revolver{
-        inChamber;
         chambers;
 
         roll() {
+            imgRev.setAttribute('src',  "")
             let rolls = Math.floor(Math.random()*36)
             for(let i = 0; i < rolls; i++){
-                let last = chambers[5]
-                for(let j = 0; j < 5; j++){
-                    chambers[j] = chambers[j+1];
-                }
-                chambers[5] = last;
+                this.next();
             }
+            
+            
+            
+            imgRev.setAttribute('src',  "{% static 'img/RevolverRoll.gif' %}")
+            
+            
         }
 
-        constructor(ammoAmt){
-            chambers = new Array(6);
-            for(let i = 0; i < ammoAmt; i++){
-                chambers[i] = true;
-                roll()
+        next(){
+            let last = this.chambers[0]
+            for(let j = 0; j < 5; j++){
+                this.chambers[j] = this.chambers[j+1];
             }
+            this.chambers[5] = last;
+        }
+
+        constructor(){
+            console.log(bullets)
+            this.chambers = [false,false,false,false,false,false]
+            for(let i = 0; i < bullets; i++){
+                this.chambers[i] = true;
+            }
+            this.roll()
         };
     }   
     document.onload = function(){
 
-    document.getElementById("startB").addEventListener("input", bAmtChange);
-    document.getElementById("startB").addEventListener("change", bAmtChange);
+        document.getElementById("startB").addEventListener("input", bAmtChange);
+        document.getElementById("startB").addEventListener("change", bAmtChange);
+        
 
     };
 
     function bAmtChange(){
+
         bullets = document.querySelector("#startB").value
+
         document.querySelector("#bulletCount").innerHTML = bullets
-
-
+        console.log(bullets)
     }
 
 
@@ -104,11 +128,34 @@
         createApp({
             data: function(){
                 return {
-                    game : "1",
+                    game : "0",
                     
                 }
             },
 
+            
+            methods:{
+                continueGame() {
+                    if(this.game == "0"){
+                        revolver01 = new revolver()
+                        this.game = "1"
+                        
+                        
+                    }else{
+                        revolver01.next();
+                        if(revolver01.chambers[0] == true){
+                            this.game = "2"
+                        }
+                    }
+                },
+                reset(){
+                    revolver01.roll()
+                    this.game = "1"
+                    if(revolver01.chambers[0] == true){
+                            this.game = "2"
+                    }
+                }
+            },
             delimiters: ['[[', ']]'],
         }).mount('#stats')
 
