@@ -19,33 +19,32 @@
             </div>
             <div id="gameView">
                 <div id="gameImg">
-                    
+                <img src="{% static 'img/PlayerIdle.png' %}" id="gameImg2">
                 </div>
                 <div id="stats">
+                    <form id="wide" action="lose" method="post">
+                        {% csrf_token %}
                             <div v-if="game.includes('0')" id="labelCount">
-                                
-                                <form >
+
                                 Bullets: <div id="bulletCount" display = "inline">1</div>
                                 <input type="range" value="1" onchange="bAmtChange()" oninput="bAmtChange()" min = "1" max = "5" step="1" id="startB">
-                                
-                                
-                                
+
                                 <button type = "button" class = "button" v-on:click = "continueGame()">Start</button>
-                                </form>
-                                
+
                             </div>
                             <div id="gamestats" v-else-if="game.includes('1')">
-                                <form id="wide">
+
                                 <button type = "button" class = "button" v-on:click = "continueGame()">Pull the trigger</button>
                                 <button type = "button" class = "button" v-on:click = "reset()">Roll the cylinder</button>
-                                </form>
+                                
                             </div>
                             <div id="gamestats" v-else>
-                                <form id="wide" action="lose">
+                                <input type="hidden" id="record" name="record">
                                 <button type = "submit" class = "button" >Pull the trigger</button>
                                 <button type = "button" class = "button"v-on:click= "reset()">Roll the cylinder</button>
-                                </form>
+                               
                             </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -67,10 +66,17 @@
 
     var bullets = 1;
     
-    var img = document.getElementById("gameImg")
+    var img = document.getElementById("gameImg2")
 
     var imgRev = document.getElementById("Rev")
     
+    var anims = [
+        "{% static 'img/PlayerClick.gif' %}",
+        "{% static 'img/PlayerIdle.gif' %}",
+        "{% static 'img/RevolverTake.gif' %}",
+        "{% static 'img/RevolverRoll.gif' %}",
+        
+    ]
 
     class revolver{
         chambers;
@@ -81,20 +87,21 @@
             for(let i = 0; i < rolls; i++){
                 this.next();
             }
-            
-            
-            
             imgRev.setAttribute('src',  "{% static 'img/RevolverRoll.gif' %}")
             
             
         }
 
         next(){
+            
+            
             let last = this.chambers[0]
             for(let j = 0; j < 5; j++){
                 this.chambers[j] = this.chambers[j+1];
             }
             this.chambers[5] = last;
+            
+
         }
 
         constructor(){
@@ -122,6 +129,7 @@
         console.log(bullets)
     }
 
+    var count = 0;
 
     const { createApp } = Vue
 
@@ -142,9 +150,16 @@
                         
                         
                     }else{
+                        img.setAttribute('src',  "")
+                        imgRev.setAttribute('src',  "")
+                        img.setAttribute('src',  anims[0])
+                        imgRev.setAttribute('src',  "{% static 'img/RevolverTake.gif' %}")
+                        count +=1;
                         revolver01.next();
                         if(revolver01.chambers[0] == true){
                             this.game = "2"
+                            document.getElementById("record").value = count;
+
                         }
                     }
                 },
